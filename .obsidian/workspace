@@ -1,0 +1,103 @@
+{
+  "main": {
+    "id": "3bbd0df9ac2f8bc8",
+    "type": "split",
+    "children": [
+      {
+        "id": "0064361b23ee71c4",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "README.md",
+            "mode": "source",
+            "source": false
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "3e102c8ee5c1982d",
+    "type": "split",
+    "children": [
+      {
+        "id": "443e62dd34cb3374",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c2cda4fa5ae3e123",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "c9f5aed03493f7be",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 214
+  },
+  "right": {
+    "id": "ff2b67f0c3788722",
+    "type": "split",
+    "children": [
+      {
+        "id": "cee28fb0c201b2bb",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "2db8c5a316ae9b37",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "README.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "active": "0064361b23ee71c4",
+  "lastOpenFiles": [
+    "README.md",
+    "2021/0x18 Sea Cucumber.md",
+    "2021/0x17 Arithmetic Logic Unit.md",
+    "2021/0x16 Amphipod.md",
+    "2021/0x15 Reactor Reboot.md",
+    "2021/0x14 Dirac Dice.md",
+    "2021/0x13 Trench Map.md",
+    "2021/0x12 Beacon Scanner.md",
+    "2021/0x11 Snailfish.md",
+    "2021/0x10 Trick Shot.md"
+  ]
+}
