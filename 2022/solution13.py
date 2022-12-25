@@ -1,43 +1,49 @@
 #!/usr/bin/env python3
+from collections import deque
+import functools
 import sys
 
-if len(sys.argv) != 2:
-    print(f"Usage: {sys.argv[0]} <input file>")
-    sys.exit(1)
+def compare(left, right, root=True):
+    if isinstance(left, int) and isinstance(right, int):
+        if left > right:
+            return -1
+        if left < right:
+            return 1
+        return 0
+    if isinstance(left, int):
+        left = [left]
+    if isinstance(right, int):
+        right = [right]
+    left, right = deque(left), deque(right)
+    while len(left) > 0 and len(right) > 0:
+        next_left, next_right = left.popleft(), right.popleft()
+        cmp = compare(next_left, next_right, False)
+        if cmp != 0:
+            return cmp
+    if len(left) > 0:
+        return -1
+    if len(right) > 0:
+        return 1
+    return 1 if root else 0
 
-win_map = {
-    "X": "Z",
-    "Y": "X",
-    "Z": "Y",
-}
-translation_map = {
-    "A": "X",
-    "B": "Y",
-    "C": "Z",
-}
-choice_value = {
-    "X": 1,
-    "Y": 2,
-    "Z": 3,
-}
+def parse_pairs(data):
+    pairs_sum = 0
+    for idx, i in enumerate(range(0, len(data), 3)):
+        left = eval(data[i])
+        right = eval(data[i+1])
+        cmp = compare(left, right, True)
+        if cmp == 1:
+            pairs_sum += idx + 1
+    print(f"pairs_sum = {pairs_sum}")
 
-def calculate_score(games):
-    total_score = 0
-    for game in games:
-        their_move, my_decision = game.split(" ")
-        their_move = translation_map[their_move]
-        if my_decision == "X":
-            my_move = win_map[their_move]
-        elif my_decision == "Y":
-            total_score += 3
-            my_move = their_move
-        elif my_decision == "Z":
-            total_score += 6
-            my_move = list(
-                filter(lambda i: i[1] == their_move, win_map.items())
-            )[0][0]
-        total_score += choice_value[my_move]
-    return total_score
+def sort_pairs(data):
+    packets = [[[2]], [[6]]]
+    for packet in data:
+        if packet == "":
+            continue
+        packets.append(eval(packet))
+    packets.sort(key=functools.cmp_to_key(compare), reverse=True)
+    return (packets.index([[2]]) + 1) * (packets.index([[6]]) + 1)
 
 data = open(sys.argv[1], "r").read().strip().split("\n")
-print(f"Total score would be {calculate_score(data)}")
+print(f"decoder key: {sort_pairs(data)}")

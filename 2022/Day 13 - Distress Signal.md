@@ -115,3 +115,125 @@ What are the indices of the pairs that are already _in the right order_? (The fi
 
 Determine which pairs of packets are already in the right order. _What is the sum of the indices of those pairs?_
 
+```python
+#!/usr/bin/env python3
+from collections import deque
+import sys
+
+def compare(left, right, root=False):
+    if isinstance(left, int) and isinstance(right, int):
+        if left > right:
+            return -1
+        if left < right:
+            return 1
+        return 0
+    if isinstance(left, int):
+        left = [left]
+    if isinstance(right, int):
+        right = [right]
+    left, right = deque(left), deque(right)
+    while len(left) > 0 and len(right) > 0:
+        next_left, next_right = left.popleft(), right.popleft()
+        cmp = compare(next_left, next_right)
+        if cmp != 0:
+            return cmp
+    if len(left) > 0:
+        return -1
+    if len(right) > 0:
+        return 1
+    return 1 if root else 0
+
+def parse_pairs(data):
+    pairs_sum = 0
+    for idx, i in enumerate(range(0, len(data), 3)):
+        left = eval(data[i])
+        right = eval(data[i+1])
+        cmp = compare(left, right, True)
+        if cmp == 1:
+            pairs_sum += idx + 1
+    print(f"pairs_sum = {pairs_sum}")
+
+data = open(sys.argv[1], "r").read().strip().split("\n")
+parse_pairs(data)
+```
+
+```bash
+❯ python3 solution13.py input13
+pairs_sum = 6415
+```
+
+## --- Part Two ---
+
+Now, you just need to put _all_ of the packets in the right order. Disregard the blank lines in your list of received packets.
+
+The distress signal protocol also requires that you include two additional _divider packets_:
+
+```
+[[2]]
+[[6]]
+```
+
+Using the same rules as before, organize all packets - the ones in your list of received packets as well as the two divider packets - into the correct order.
+
+For the example above, the result of putting the packets in the correct order is:
+
+```
+[]
+[[]]
+[[[]]]
+[1,1,3,1,1]
+[1,1,5,1,1]
+[[1],[2,3,4]]
+[1,[2,[3,[4,[5,6,0]]]],8,9]
+[1,[2,[3,[4,[5,6,7]]]],8,9]
+[[1],4]
+[[2]]
+[3]
+[[4,4],4,4]
+[[4,4],4,4,4]
+[[6]]
+[7,7,7]
+[7,7,7,7]
+[[8,7,6]]
+[9]
+```
+
+Afterward, locate the divider packets. To find the _decoder key_ for this distress signal, you need to determine the indices of the two divider packets and multiply them together. (The first packet is at index 1, the second packet is at index 2, and so on.) In this example, the divider packets are _10th_ and _14th_, and so the decoder key is `_140_`.
+
+Organize all of the packets into the correct order. _What is the decoder key for the distress signal?_
+
+```python
+def compare(left, right, root=True):
+	...
+	...
+    while len(left) > 0 and len(right) > 0:
+        next_left, next_right = left.popleft(), right.popleft()
+        cmp = compare(next_left, next_right, False)
+        if cmp != 0:
+            return cmp
+	...
+	...
+```
+
+```python
+import functools
+...
+...
+
+def sort_pairs(data):
+    packets = [[[2]], [[6]]]
+    for packet in data:
+        if packet == "":
+            continue
+        packets.append(eval(packet))
+    packets.sort(key=functools.cmp_to_key(compare), reverse=True)
+    return (packets.index([[2]]) + 1) * (packets.index([[6]]) + 1)
+
+data = open(sys.argv[1], "r").read().strip().split("\n")
+print(f"decoder key: {sort_pairs(data)}")
+```
+
+```bash
+❯ python3 solution13.py input13
+decoder key: 20056
+```
